@@ -1,14 +1,14 @@
 {
-  "name": "node-jwt-auth",
+  "name": "only-connect-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "back-end for get out the vote app",
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
     "test": "mocha --exit"
   },
   "keywords": [],
-  "author": "",
+  "author": "Peter McGrath",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.0",
