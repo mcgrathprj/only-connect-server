@@ -8,10 +8,8 @@ const router = express.Router();
 
 const jsonParser = bodyParser.json();
 
-// Post to register a new user
-//TODO rewrite for events
 router.post('/', jsonParser, (req, res) => {
-  const requiredFields = ['username', 'password'];
+  const requiredFields = ['organizer', 'title', 'location', 'date', 'start_time', 'end_time', 'capacity'];
   const missingField = requiredFields.find(field => !(field in req.body));
 
   if (missingField) {
@@ -43,21 +41,16 @@ router.post('/', jsonParser, (req, res) => {
     return res.status(201).json(event);
   })
   .catch(err => {
-    // Forward validation errors on to the client, otherwise give a 500
-    // error because something unexpected has happened
     if (err.reason === 'ValidationError') {
       return res.status(err.code).json(err);
     }
     res.status(500).json({code: 500, message: 'Internal server error'});
   });
 });
-// Never expose all your users like below in a prod application
-// we're just doing this so we have a quick way to see
-// if we're creating users. keep in mind, you can also
-// verify this in the Mongo shell.
+
 router.get('/', (req, res) => {
-  return User.find()
-    .then(users => res.json(users))
+  return Event.find()
+    .then(events => res.json(events))
     .catch(err => res.status(500).json({message: 'Internal server error'}));
 });
 
