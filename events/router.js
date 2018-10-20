@@ -23,7 +23,7 @@ router.post('/', jsonParser, (req, res) => {
     });
   }
 
-  const stringFields = ['username', 'password', 'firstName', 'lastName'];
+  const stringFields = ['organizer', 'title', 'description', 'location', 'start_time', 'end_time'];
   const nonStringField = stringFields.find(
     field => field in req.body && typeof req.body[field] !== 'string'
   );
@@ -37,18 +37,10 @@ router.post('/', jsonParser, (req, res) => {
     });
   }
 
-  let {username, password, firstName = '', lastName = ''} = req.body;
-  // Username and password come in pre-trimmed, otherwise we throw an error
-  // before this
-//TODO make this an event post. 
-    return User.create({
-      username,
-      password: hash,
-      firstName,
-      lastName
-  })
-  .then(user => {
-    return res.status(201).json(user.serialize());
+  let {organizer, title, description, location, date, start_time, end_time, capacity} = req.body; 
+    return Event.create(req.body)
+  .then(event => {
+    return res.status(201).json(event);
   })
   .catch(err => {
     // Forward validation errors on to the client, otherwise give a 500
@@ -65,7 +57,7 @@ router.post('/', jsonParser, (req, res) => {
 // verify this in the Mongo shell.
 router.get('/', (req, res) => {
   return User.find()
-    .then(users => res.json(users.map(user => user.serialize())))
+    .then(users => res.json(users))
     .catch(err => res.status(500).json({message: 'Internal server error'}));
 });
 

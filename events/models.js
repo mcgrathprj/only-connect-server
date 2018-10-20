@@ -5,26 +5,43 @@ mongoose.Promise = global.Promise;
 
 //TODO need to change to events schema
 const EventSchema = mongoose.Schema({
-  Eventname: {
-    type: String,
-    required: true,
-    unique: true
-  },
-  password: {
+  organizer: {
     type: String,
     required: true
   },
-  firstName: {type: String, default: ''},
-  lastName: {type: String, default: ''}
+  title: {
+    type: String,
+    required: true
+  },
+  description: {
+    type: String,
+    required: false
+  },
+  location: {
+    type: String,
+    required: true
+  },
+    date: {
+    type: Date,
+    required: true
+  },
+    start_time: {
+    type: String,
+    required: true
+  },
+    end_time: {
+    type: String,
+    required: true
+  },
+    capacity: {
+    type: Number,
+    required: true
+  },
+    attendees: {
+    type: Array,
+    required: false
+  }
 });
-
-EventSchema.methods.serialize = function() {
-  return {
-    Eventname: this.Eventname || '',
-    firstName: this.firstName || '',
-    lastName: this.lastName || ''
-  };
-};
 
 const Event = mongoose.model('Event', EventSchema);
 
