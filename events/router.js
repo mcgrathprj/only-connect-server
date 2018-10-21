@@ -12,7 +12,7 @@ const {Event} = require('./models');
 const jsonParser = bodyParser.json();
 
 
-router.get('/events', (req, res) => {
+router.get('/', (req, res) => {
   Event
     .find()
     .then(events => {
@@ -23,7 +23,7 @@ router.get('/events', (req, res) => {
     });
 });
 
-router.get('/events/:id', (req, res) => {
+router.get('/:id', (req, res) => {
   Event
     .findById(req.params.id)
     .then(event => {
@@ -74,10 +74,15 @@ router.post('/', jsonParser, (req, res) => {
   });
 });
 
-router.get('/', (req, res) => {
-  return Event.find()
-    .then(events => res.json(events))
-    .catch(err => res.status(500).json({message: 'Internal server error'}));
+router.delete('/:id', (req, res) => {
+  Event
+    .findByIdAndRemove(req.params.id)
+    .then(() => {
+      res.status(204).end()
+    })
+    .catch(err => {
+      res.status(500).json({message: "Internal Server Error"})
+    })
 });
 
 module.exports = {router};
