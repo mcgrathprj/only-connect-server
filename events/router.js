@@ -1,12 +1,38 @@
 'use strict';
 const express = require('express');
+const passport = require('passport');
 const bodyParser = require('body-parser');
+const jwt = require('jsonwebtoken');
+const config = require('../config');
+const router = express.Router();
+const jwtAuth = passport.authenticate('jwt', {session: false});
 
 const {Event} = require('./models');
 
-const router = express.Router();
-
 const jsonParser = bodyParser.json();
+
+
+router.get('/events', (req, res) => {
+  Event
+    .find()
+    .then(events => {
+      res.status(200).json(wines)
+    })
+    .catch(err=> {
+      res.status(500).json({message: "Internal Server Error"});
+    });
+});
+
+router.get('/events/:id', (req, res) => {
+  Event
+    .findById(req.params.id)
+    .then(event => {
+      res.status(200).json(wine)
+    })
+    .catch(err=> {
+      res.status(500).json({message: "Internal Server Error"});
+    });
+});
 
 router.post('/', jsonParser, (req, res) => {
   const requiredFields = ['organizer', 'title', 'location', 'date', 'start_time', 'end_time', 'capacity'];

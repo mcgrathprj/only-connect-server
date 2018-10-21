@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
 
-//TODO need to change to events schema
 const EventSchema = mongoose.Schema({
   organizer: {
     type: String,
