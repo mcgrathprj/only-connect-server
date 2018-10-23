@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
   Event
     .find()
     .then(events => {
-      res.status(200).json(wines)
+      res.status(200).json(events)
     })
     .catch(err=> {
       res.status(500).json({message: "Internal Server Error"});
@@ -27,7 +27,7 @@ router.get('/:id', (req, res) => {
   Event
     .findById(req.params.id)
     .then(event => {
-      res.status(200).json(wine)
+      res.status(200).json(event)
     })
     .catch(err=> {
       res.status(500).json({message: "Internal Server Error"});
