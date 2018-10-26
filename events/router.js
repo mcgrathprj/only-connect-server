@@ -34,6 +34,18 @@ router.get('/:user', (req, res) => {
     });
 });
 
+router.get('/id/:id', (req, res) => {
+  Event
+    .findById(req.params.id)
+    .then(event => {
+      res.status(200).json(event)
+    })
+    .catch(err=> {
+      res.status(500).json({message: "Internal Server Error"});
+    });
+});
+
+
 router.post('/', jsonParser, (req, res) => {
   const requiredFields = ['organizer', 'title', 'location', 'date', 'start_time', 'end_time', 'capacity'];
   const missingField = requiredFields.find(field => !(field in req.body));
