@@ -23,9 +23,9 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:user', (req, res) => {
   Event
-    .findById(req.params.id)
+    .find({$or: [{organizer:req.params.user}, {attendees: req.params.user}]})
     .then(event => {
       res.status(200).json(event)
     })
@@ -61,7 +61,7 @@ router.post('/', jsonParser, (req, res) => {
     });
   }
 
-  let {organizer, title, description, location, date, start_time, end_time, capacity} = req.body; 
+  let {organizer, title, description, location, date, start_time, end_time, capacity, attendees} = req.body; 
     return Event.create(req.body)
   .then(event => {
     return res.status(201).json(event);
@@ -70,6 +70,7 @@ router.post('/', jsonParser, (req, res) => {
     if (err.reason === 'ValidationError') {
       return res.status(err.code).json(err);
     }
+    console.log(err);
     res.status(500).json({code: 500, message: 'Internal server error'});
   });
 });
